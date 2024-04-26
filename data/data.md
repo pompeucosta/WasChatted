@@ -1,0 +1,3 @@
+# Data
+
+The dataset used in this project can be found in https://huggingface.co/datasets/aadityaubhat/GPT-wiki-intro. The dataset consists of ... 
