@@ -9,20 +9,23 @@
 #include <memory>
 #include <sstream>
 
+#include "helpers.h"
+
 size_t k = 3, alpha = 1;
 
 class ModelData {
     private:
-        std::unordered_map<std::string,std::vector<size_t>> counts;
-        const std::shared_ptr<std::unordered_map<char,size_t>> alphabet;
         const double alpha;
+        std::unordered_map<std::string,std::vector<size_t>> counts;
+        std::shared_ptr<std::unordered_map<char,size_t>> alphabet;
 
         size_t symbolPosition(char symbol) const {
             return alphabet->at(symbol);
         }
 
     public:
-        ModelData(const std::shared_ptr<std::unordered_map<char,size_t>>& _alphabet,const double _alpha): alphabet(_alphabet),alpha(_alpha) {}
+        ModelData(std::shared_ptr<std::unordered_map<char,size_t>>& _alphabet,const double _alpha): alpha(_alpha),alphabet(_alphabet) {}
+        ModelData(const double _alpha): alpha(_alpha)  {}
 
         void increment(const std::string& context,char symbol) {
             if(counts.find(context) == counts.end()) {
@@ -41,11 +44,22 @@ class ModelData {
 
             return (symbolCount + alpha) / (sum + alpha * alphabet->size());
         }
+
+        virtual void saveData(const std::string& fileName) {
+            Data d = {counts,*alphabet};
+            saveDataToFile(d,fileName);
+        }
+
+        virtual void getDataFromFile(const std::string& fileName) {
+            Data d = readDataFromFile(fileName);
+            counts = d.counts;
+            alphabet = std::make_shared<std::unordered_map<char,size_t>>(d.alphabet);
+        }
 };
 
 class MarkovModel {
     private:
-        size_t contextSize = 1;
+        const size_t contextSize = 1;
         char mostFrequent;
         std::unordered_map<char,size_t> counts;
     protected:
@@ -82,7 +96,16 @@ class MarkovModel {
             return bits;
         }
 
-        MarkovModel(size_t _contextSize,const double _alpha,const std::shared_ptr<std::unordered_map<char,size_t>>& _alphabet): contextSize(_contextSize),modelData(_alphabet,_alpha) {}
+        void saveData(const std::string& fileName) {
+            modelData.saveData(fileName);
+        }
+
+        void getData(const std::string& fileName) {
+            modelData.getDataFromFile(fileName);
+        }
+
+        MarkovModel(const size_t _contextSize,const double _alpha,std::shared_ptr<std::unordered_map<char,size_t>>& _alphabet): contextSize(_contextSize),modelData(_alphabet,_alpha) {}
+        MarkovModel(const size_t _contextSize,const double _alpha): contextSize(_contextSize), modelData(_alpha) {}
         virtual ~MarkovModel() {}
 };
 
@@ -117,7 +140,7 @@ std::unordered_map<char,size_t> alphabet(const std::string& inputFilename) {
     return alphabet;
 }
 
-MarkovModel FCM(const std::string& filename, size_t k, const std::shared_ptr<std::unordered_map<char,size_t>>& alphabet) {
+MarkovModel FCM(const std::string& filename, size_t k, std::shared_ptr<std::unordered_map<char,size_t>>& alphabet) {
     #define MAX_BUFFER_SIZE 8000
 
     MarkovModel model(k,alpha,alphabet);
@@ -176,6 +199,10 @@ int main(int argc,char* argv[]) {
     MarkovModel resultsHuman = FCM(humanCollectionFile, k, alphabetHuman);
     MarkovModel resultsGpt = FCM(gptCollectionFile, k, alphabetGpt);
 
+    std::cout << "Saving..." << std::endl;
+    resultsHuman.saveData("./t.bin");
+    std::cout << "Saved" << std::endl;
+
     std::ifstream file(textFile);
     if(!file.is_open()) {
         std::cerr << "Error opening file: " << textFile << std::endl;
@@ -186,20 +213,27 @@ int main(int argc,char* argv[]) {
     buffer << file.rdbuf();
     const std::string text(buffer.str());
 
-    std::cout << "Determining class..." << std::endl;
     double bitsHuman = resultsHuman.calculateBits(text);
-    double bitsGPT = resultsGpt.calculateBits(text);
-    std::string res;
 
     std::cout << "Human score: " << bitsHuman << std::endl;
-    std::cout << "GPT score: " << bitsGPT << std::endl;
 
-    if(bitsHuman < bitsGPT)
-        res = "Human";
-    else
-        res = "GPT";
+    std::cout << "Getting..." << std::endl;
+    MarkovModel m(k,alpha);
+    m.getData("./t.bin");
+    std::cout << "Got it" << std::endl;
 
-    std::cout << "The text belongs to the class: " << res << std::endl;
+    bitsHuman = m.calculateBits(text);
+    std::cout << "Human score: " << bitsHuman << std::endl;
+
+    // std::cout << "Determining class..." << std::endl;
+    // std::string res;
+
+    // if(bitsHuman < bitsGPT)
+    //     res = "Human";
+    // else
+    //     res = "GPT";
+
+    // std::cout << "The text belongs to the class: " << res << std::endl;
 
     auto now = std::chrono::high_resolution_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - start).count();
