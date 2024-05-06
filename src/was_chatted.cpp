@@ -119,6 +119,11 @@ bool isValidFile(const std::string& filename) {
     return true;
 }
 
+bool existsFile(const std::string& filename) {
+    std::ifstream file(filename);
+    return file.is_open();
+}
+
 std::unordered_map<char,size_t> alphabet(const std::string& inputFilename) {
     std::ifstream inputFile(inputFilename);
 
@@ -140,10 +145,9 @@ std::unordered_map<char,size_t> alphabet(const std::string& inputFilename) {
     return alphabet;
 }
 
-MarkovModel FCM(const std::string& filename, size_t k, std::shared_ptr<std::unordered_map<char,size_t>>& alphabet) {
+void FCM(MarkovModel& model, const std::string& filename, size_t k, std::shared_ptr<std::unordered_map<char,size_t>>& alphabet) {
     #define MAX_BUFFER_SIZE 8000
 
-    MarkovModel model(k,alpha,alphabet);
     std::ifstream file(filename);
 
     char* charBuffer = new char[MAX_BUFFER_SIZE];
@@ -154,10 +158,19 @@ MarkovModel FCM(const std::string& filename, size_t k, std::shared_ptr<std::unor
         model.train(data);
     }
 
-    delete charBuffer;
+    delete[] charBuffer;
     
     file.close();
-    return model;
+}
+
+// write to csv file
+void writeStatisticsToFile(const std::string& filename, const double bitsHuman, const double bitsGPT) {
+    // create file with the same name as the input file but with .csv extension
+    std::string outputFilename = filename.substr(0, filename.find_last_of('.')) + ".csv";
+    std::ofstream output(outputFilename);
+    output << "Text,Human score,GPT score,Class" << std::endl;
+    output << filename << "," << bitsHuman << "," << bitsGPT << "," << (bitsHuman < bitsGPT ? "Human" : "GPT") << std::endl;
+    output.close();
 }
 
 int main(int argc,char* argv[]) {
@@ -196,12 +209,17 @@ int main(int argc,char* argv[]) {
     std::shared_ptr<std::unordered_map<char,size_t>> alphabetGpt = std::make_shared<std::unordered_map<char,size_t>>(alphabet(gptCollectionFile));
     
     std::cout << "Applying FCM..." << std::endl;
-    MarkovModel resultsHuman = FCM(humanCollectionFile, k, alphabetHuman);
-    MarkovModel resultsGpt = FCM(gptCollectionFile, k, alphabetGpt);
-
-    std::cout << "Saving..." << std::endl;
-    resultsHuman.saveData("./t.bin");
-    std::cout << "Saved" << std::endl;
+    MarkovModel resultsHuman(k,alpha,alphabetHuman);
+    MarkovModel resultsGpt(k,alpha,alphabetGpt);
+    if (existsFile("./resultsHuman.bin") && existsFile("./resultsGpt.bin")) {
+        resultsHuman.getData("./resultsHuman.bin");
+        resultsGpt.getData("./resultsGpt.bin");
+    } else {
+        FCM(resultsHuman, humanCollectionFile, k, alphabetHuman);
+        FCM(resultsGpt, gptCollectionFile, k, alphabetGpt);
+        resultsHuman.saveData("./resultsHuman.bin");
+        resultsGpt.saveData("./resultsGpt.bin");
+    }
 
     std::ifstream file(textFile);
     if(!file.is_open()) {
@@ -214,30 +232,26 @@ int main(int argc,char* argv[]) {
     const std::string text(buffer.str());
 
     double bitsHuman = resultsHuman.calculateBits(text);
-
     std::cout << "Human score: " << bitsHuman << std::endl;
 
-    std::cout << "Getting..." << std::endl;
-    MarkovModel m(k,alpha);
-    m.getData("./t.bin");
-    std::cout << "Got it" << std::endl;
+    double bitsGPT = resultsGpt.calculateBits(text);
+    std::cout << "GPT score: " << bitsGPT << std::endl;
 
-    bitsHuman = m.calculateBits(text);
-    std::cout << "Human score: " << bitsHuman << std::endl;
+    std::cout << "Determining class..." << std::endl;
+    std::string res;
 
-    // std::cout << "Determining class..." << std::endl;
-    // std::string res;
+    if(bitsHuman < bitsGPT)
+        res = "Human";
+    else
+        res = "GPT";
 
-    // if(bitsHuman < bitsGPT)
-    //     res = "Human";
-    // else
-    //     res = "GPT";
-
-    // std::cout << "The text belongs to the class: " << res << std::endl;
+    std::cout << "The text belongs to the class: " << res << std::endl;
 
     auto now = std::chrono::high_resolution_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - start).count();
     std::cout << "Elapsed time: " << elapsed << " seconds" << std::endl;
+
+    writeStatisticsToFile(textFile, bitsHuman, bitsGPT);
 
     return 0;
 }
