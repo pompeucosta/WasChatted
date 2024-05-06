@@ -35,7 +35,7 @@ class ModelData {
             counts[context][symbolPosition(symbol)]++;
         }
 
-        virtual double estimateProbability(char symbol,const std::string& context) {
+        double estimateProbability(char symbol,const std::string& context) {
             if(counts.find(context) == counts.end()) {
                 n++;
                 return 1;
@@ -55,12 +55,12 @@ class ModelData {
             return (symbolCount + alpha) / (sum + alpha * alphabet->size());
         }
 
-        virtual void saveData(const std::string& fileName, uint64_t k) {
+        void saveData(const std::string& fileName, uint64_t k) {
             Data d = {counts,*alphabet};
             saveDataToFile(d,fileName,k,alpha);
         }
 
-        virtual void getDataFromFile(const std::string& fileName,uint64_t& k) {
+        void getDataFromFile(const std::string& fileName,uint64_t& k) {
             Data d = readDataFromFile(fileName,k,alpha);
             counts = d.counts;
             alphabet = std::make_shared<std::unordered_map<char,size_t>>(d.alphabet);
@@ -75,13 +75,13 @@ class MarkovModel {
     protected:
         ModelData modelData;
 
-        virtual char findMostFrequent() {
+        char findMostFrequent() {
             return max_element(counts.begin(),counts.end(),[](const std::pair<char,size_t>& a,const std::pair<char,size_t>& b) {
                     return a.second < b.second;
                 })->first;
         }
     public:
-        virtual void train(const std::string& data) {
+        void train(const std::string& data) {
             for(size_t i = 0; i < data.size() - contextSize; i++) {
                 std::string context = data.substr(i,contextSize);
                 char symbol = data[i + contextSize];
@@ -92,7 +92,7 @@ class MarkovModel {
             mostFrequent = findMostFrequent();
         }
 
-        virtual double calculateBits(const std::string& text) {
+        double calculateBits(const std::string& text) {
             std::string extraBits(contextSize,mostFrequent);
             double bits = 0;
             std::string context(contextSize,mostFrequent);
@@ -119,7 +119,6 @@ class MarkovModel {
         MarkovModel(const std::string& modelDataFile) {
             getData(modelDataFile);
         }
-        virtual ~MarkovModel() {}
 };
 
 bool isValidFile(const std::string& filename) {
@@ -218,17 +217,10 @@ void printAnalyzeHelp(const char* programName) {
 }
 
 void train(int argc,char* argv[]) {
-
-    if(argc < 3) {
-        std::cerr << "Invalid number of arguments" << std::endl;
-        printTrainHelp(basename(argv[0]));
-        exit(EXIT_FAILURE);
-    }
-
     int option;
     double alpha = 1;
     uint64_t k = 10;
-    std::string file(argv[2]),outputFile("output.bin");
+    std::string file,outputFile("output.bin");
     while((option = getopt(argc,argv,"o:a:k:h")) != -1) {
         switch (option)
         {
@@ -288,6 +280,17 @@ void train(int argc,char* argv[]) {
         }
     }
 
+    int numOptionsLeft = argc - optind;
+
+    if (numOptionsLeft != 1)
+    {
+        std::cerr << "Please provide one input file" << std::endl;
+        printTrainHelp(basename(argv[0]));
+        exit(EXIT_FAILURE);
+    }
+
+    file = argv[optind];
+
     if(!isValidFile(file)) {
         exit(EXIT_FAILURE);
     }
@@ -301,15 +304,8 @@ void train(int argc,char* argv[]) {
 }
 
 void analyze(int argc,char* argv[]) {
-    if (argc < 5)
-    {
-        std::cerr << "Invalid number of arguments" << std::endl;
-        printAnalyzeHelp(basename(argv[0]));
-        exit(EXIT_FAILURE);
-    }
-
     int option;
-    std::string textFile(argv[2]),humanModelData(argv[3]),gptModelData(argv[4]),output("");
+    std::string textFile,humanModelData,gptModelData,output("");
     while ((option = getopt(argc, argv, "o:h")) != -1)
     {
         switch (option)
@@ -327,6 +323,19 @@ void analyze(int argc,char* argv[]) {
         }
     }
 
+    int numberOfFiles = argc - optind - 1;
+    
+    if(numberOfFiles != 3) {
+        std::cerr << "Invalid number of files" << std::endl;
+        printAnalyzeHelp(basename(argv[0]));
+        exit(EXIT_FAILURE);
+    }
+
+    int i = ++optind;
+    textFile = argv[i++];
+    humanModelData = argv[i++];
+    gptModelData = argv[i];
+
     if(!isValidFile(textFile) || !isValidFile(humanModelData) || !isValidFile(gptModelData)) {
         exit(EXIT_FAILURE);
     }
@@ -342,7 +351,7 @@ void analyze(int argc,char* argv[]) {
     MarkovModel gptModel(gptModelData);
     double gptBits = gptModel.calculateBits(text);
 
-    if(isValidFile(output))
+    if(existsFile(output))
         writeStatisticsToFile(output, humanBits, gptBits);
     else
         std::cout << ((humanBits < gptBits) ? "Human" : "GPT") << std::endl;
@@ -353,17 +362,6 @@ void statistics(int argc,char* argv[]) {
 }
 
 int main(int argc,char* argv[]) {
-    /*argumentos:
-        1 para a coleção de textos não reescrito pelo gpt
-        2 para a coleção de textos reescritos pelo gpt
-        3 texto em analise
-        Ate agora temos estes 3
-        Futuramente:
-        4 tamanho da sliding window k
-        5 alfa parametro de suavização
-        ....
-    */
-
     if (argc == 1)
     {
         std::cerr << "An option must be provided" << std::endl;
@@ -371,99 +369,31 @@ int main(int argc,char* argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    // std::string option(argv[1]);
-    // auto start = std::chrono::high_resolution_clock::now(); 
+    std::string option(argv[1]);
+    auto start = std::chrono::high_resolution_clock::now(); 
 
-    // if(option == "train") {
-    //     train(argc,argv);
-    // }
-    // else if(option == "analyze") {
-    //     analyze(argc,argv);
-    // }
-    // else if(option == "statistics") {
-    //     statistics(argc,argv);
-    // }
-    // else {
-    //     std::cerr << "Invalid option" << std::endl;
-    //     printHelp(basename(argv[0]));
-    //     exit(EXIT_FAILURE);
-    // }
-
-    // auto now = std::chrono::high_resolution_clock::now();
-    // auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - start).count();
-    // std::cout << "Elapsed time: " << elapsed << " seconds" << std::endl;
-
-    // return EXIT_SUCCESS;
-
-    
-    if (argc != 4) {
-        std::cerr << "Usage: "<< argv[0] << "<human_collection> <gpt_collection> <text_to_analyse>" << std::endl;
+    if(option == "train") {
+        train(argc,argv);
+    }
+    else if(option == "analyze") {
+        analyze(argc,argv);
+    }
+    else if(option == "statistics") {
+        statistics(argc,argv);
+    }
+    else if(option == "-h") {
+        printHelp(basename(argv[0]));
+        exit(EXIT_SUCCESS);
+    }
+    else {
+        std::cerr << "Invalid option" << std::endl;
+        printHelp(basename(argv[0]));
         exit(EXIT_FAILURE);
     }
 
-    std::string humanCollectionFile = argv[1];
-    std::string gptCollectionFile = argv[2];
-    std::string textFile = argv[3];
+    auto now = std::chrono::high_resolution_clock::now();
+    auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - start).count();
+    std::cout << "Elapsed time: " << elapsed << " seconds" << std::endl;
 
-    // Pode se especificar qual/quais tao incorretos
-    // Verificar se os ficheiros de textos fornecidos são válidos
-    std::cout << "Checking files..." << std::endl;
-    if (!isValidFile(humanCollectionFile) || !isValidFile(gptCollectionFile) || !isValidFile(textFile)) {
-        std::cerr << "Invalid file(s) provided!" << std::endl;
-        exit(EXIT_FAILURE);
-    }
-
-    // Obter o alfabeto do ficheiro de entrada
-    std::cout << "Obtaining alphabet..." << std::endl;
-    std::shared_ptr<std::unordered_map<char,size_t>> alphabetHuman = std::make_shared<std::unordered_map<char,size_t>>(alphabet(humanCollectionFile));
-    std::shared_ptr<std::unordered_map<char,size_t>> alphabetGpt = std::make_shared<std::unordered_map<char,size_t>>(alphabet(gptCollectionFile));
-    
-    size_t k = 5;
-    double alpha = 1;
-
-    std::cout << "Applying FCM..." << std::endl;
-    MarkovModel resultsHuman(k, alpha, alphabetHuman);
-    MarkovModel resultsGpt(k, alpha, alphabetGpt);
-    if (existsFile("./resultsHuman.bin") && existsFile("./resultsGpt.bin"))
-    {
-        resultsHuman.getData("./resultsHuman.bin");
-        resultsGpt.getData("./resultsGpt.bin");
-    }
-    else
-    {
-        FCM(resultsHuman, humanCollectionFile, k, alphabetHuman);
-        FCM(resultsGpt, gptCollectionFile, k, alphabetGpt);
-        resultsHuman.saveData("./resultsHuman.bin");
-        resultsGpt.saveData("./resultsGpt.bin");
-    }
-
-    std::ifstream file(textFile);
-    if(!file.is_open()) {
-        std::cerr << "Error opening file: " << textFile << std::endl;
-        return 1;
-    }
-
-    std::stringstream buffer;
-    buffer << file.rdbuf();
-    const std::string text(buffer.str());
-
-    double bitsHuman = resultsHuman.calculateBits(text);
-    std::cout << "Human score: " << bitsHuman << std::endl;
-
-    double bitsGPT = resultsGpt.calculateBits(text);
-    std::cout << "GPT score: " << bitsGPT << std::endl;
-
-    std::cout << "Determining class..." << std::endl;
-    std::string res;
-
-    if(bitsHuman < bitsGPT)
-        res = "Human";
-    else
-        res = "GPT";
-
-    std::cout << "The text belongs to the class: " << res << std::endl;
-
-    writeStatisticsToFile(textFile, bitsHuman, bitsGPT);
-
-    return 0;
+    return EXIT_SUCCESS;
 }
