@@ -165,12 +165,18 @@ void FCM(MarkovModel& model, const std::string& filename, size_t k, std::shared_
 
 // write to csv file
 void writeStatisticsToFile(const std::string& filename, const double bitsHuman, const double bitsGPT) {
-    // create file with the same name as the input file but with .csv extension
-    std::string outputFilename = filename.substr(0, filename.find_last_of('.')) + ".csv";
-    std::ofstream output(outputFilename);
-    output << "Text,Human score,GPT score,Class" << std::endl;
-    output << filename << "," << bitsHuman << "," << bitsGPT << "," << (bitsHuman < bitsGPT ? "Human" : "GPT") << std::endl;
-    output.close();
+    std::fstream file;
+    file.open("../results.csv", std::ios::in);
+    bool fileExists = file.is_open();
+    file.close();
+
+    file.open("../results.csv", std::ios::out | std::ios::app);
+    if (!fileExists) {
+        file << "Filename,Human score,GPT score\n";
+    }
+
+    file << filename << "," << bitsHuman << "," << bitsGPT << "\n";
+    file.close();
 }
 
 int main(int argc,char* argv[]) {
