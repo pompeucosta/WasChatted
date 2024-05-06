@@ -172,10 +172,10 @@ void writeStatisticsToFile(const std::string& filename, const double bitsHuman, 
 
     file.open("../results.csv", std::ios::out | std::ios::app);
     if (!fileExists) {
-        file << "Filename,Human score,GPT score\n";
+        file << "Filename,Human score,GPT score,Class\n";
     }
 
-    file << filename << "," << bitsHuman << "," << bitsGPT << "\n";
+    file << filename << "," << bitsHuman << "," << bitsGPT << "," << (bitsHuman < bitsGPT ? "Human" : "GPT") << "\n";
     file.close();
 }
 
@@ -208,19 +208,19 @@ int main(int argc,char* argv[]) {
         std::cerr << "Invalid file(s) provided!" << std::endl;
         exit(EXIT_FAILURE);
     }
+    MarkovModel resultsHuman(k,alpha);
+    MarkovModel resultsGpt(k,alpha);
     
-    // Obter o alfabeto do ficheiro de entrada
-    std::cout << "Obtaining alphabet..." << std::endl;
-    std::shared_ptr<std::unordered_map<char,size_t>> alphabetHuman = std::make_shared<std::unordered_map<char,size_t>>(alphabet(humanCollectionFile));
-    std::shared_ptr<std::unordered_map<char,size_t>> alphabetGpt = std::make_shared<std::unordered_map<char,size_t>>(alphabet(gptCollectionFile));
-    
-    std::cout << "Applying FCM..." << std::endl;
-    MarkovModel resultsHuman(k,alpha,alphabetHuman);
-    MarkovModel resultsGpt(k,alpha,alphabetGpt);
     if (existsFile("./resultsHuman.bin") && existsFile("./resultsGpt.bin")) {
+        std::cout << "Applying FCM..." << std::endl;
         resultsHuman.getData("./resultsHuman.bin");
         resultsGpt.getData("./resultsGpt.bin");
     } else {
+        // Obter o alfabeto do ficheiro de entrada
+        std::cout << "Obtaining alphabet..." << std::endl;
+        std::shared_ptr<std::unordered_map<char,size_t>> alphabetHuman = std::make_shared<std::unordered_map<char,size_t>>(alphabet(humanCollectionFile));
+        std::shared_ptr<std::unordered_map<char,size_t>> alphabetGpt = std::make_shared<std::unordered_map<char,size_t>>(alphabet(gptCollectionFile));
+        
         FCM(resultsHuman, humanCollectionFile, k, alphabetHuman);
         FCM(resultsGpt, gptCollectionFile, k, alphabetGpt);
         resultsHuman.saveData("./resultsHuman.bin");
