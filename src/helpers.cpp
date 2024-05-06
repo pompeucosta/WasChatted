@@ -20,13 +20,19 @@ void writeMapEntry(std::ofstream& outfile, const std::pair<std::string, std::vec
 }
 
 // Function to save the Data struct to a binary file
-void saveDataToFile(const Data& data, const std::string& filename) {
+void saveDataToFile(const Data& data, const std::string& filename,uint64_t k,double alpha) {
     std::ofstream outfile(filename, std::ios::binary);
 
     if (!outfile.is_open()) {
         std::cerr << "Error opening file: " << filename << std::endl;
         return;
     }
+
+    uint64_t mk = k;
+    outfile.write(reinterpret_cast<char*>(&mk),sizeof(uint64_t));
+
+    double a = alpha;
+    outfile.write(reinterpret_cast<char*>(&a),sizeof(double));
 
     // Write the number of entries in counts map
     size_t numCountsEntries = data.counts.size();
@@ -78,7 +84,7 @@ std::pair<std::string, std::vector<size_t>> readMapEntry(std::ifstream& infile) 
 }
 
 // Function to read the Data struct from a binary file
-Data readDataFromFile(const std::string& filename) {
+Data readDataFromFile(const std::string& filename,uint64_t& k,double& alpha) {
     Data data;
     std::ifstream infile(filename, std::ios::binary);
 
@@ -86,6 +92,9 @@ Data readDataFromFile(const std::string& filename) {
         std::cerr << "Error opening file: " << filename;
         return data; // Return empty data struct on error
     }
+
+    infile.read(reinterpret_cast<char *>(&k), sizeof(uint64_t));
+    infile.read(reinterpret_cast<char *>(&alpha), sizeof(double));
 
     // Read the number of entries in counts map
     size_t numCountsEntries;
