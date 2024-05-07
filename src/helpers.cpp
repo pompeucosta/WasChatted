@@ -20,7 +20,7 @@ void writeMapEntry(std::ofstream& outfile, const std::pair<std::string, std::vec
 }
 
 // Function to save the Data struct to a binary file
-void saveDataToFile(const std::unordered_map<std::string,std::vector<size_t>>& data, const std::string& filename,uint64_t k,double alpha) {
+void saveDataToFile(const std::unordered_map<std::string,std::vector<size_t>>& data, const std::string& filename,uint64_t k,double alpha,char mostFrequent) {
     std::ofstream outfile(filename, std::ios::binary);
 
     if (!outfile.is_open()) {
@@ -33,6 +33,8 @@ void saveDataToFile(const std::unordered_map<std::string,std::vector<size_t>>& d
 
     double a = alpha;
     outfile.write(reinterpret_cast<char*>(&a),sizeof(double));
+
+    outfile.write(&mostFrequent,sizeof(char));
 
     // Write the number of entries in counts map
     size_t numCountsEntries = data.size();
@@ -72,7 +74,7 @@ std::pair<std::string, std::vector<size_t>> readMapEntry(std::ifstream& infile) 
 }
 
 // Function to read the Data struct from a binary file
-std::unordered_map<std::string,std::vector<size_t>> readDataFromFile(const std::string& filename,uint64_t& k,double& alpha) {
+std::unordered_map<std::string,std::vector<size_t>> readDataFromFile(const std::string& filename,uint64_t& k,double& alpha,char& mostFrequent) {
     std::unordered_map<std::string,std::vector<size_t>> data;
     std::ifstream infile(filename, std::ios::binary);
 
@@ -83,6 +85,7 @@ std::unordered_map<std::string,std::vector<size_t>> readDataFromFile(const std::
 
     infile.read(reinterpret_cast<char *>(&k), sizeof(uint64_t));
     infile.read(reinterpret_cast<char *>(&alpha), sizeof(double));
+    infile.read(&mostFrequent,sizeof(char));
 
     // Read the number of entries in counts map
     size_t numCountsEntries;

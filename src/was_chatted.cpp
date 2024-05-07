@@ -72,19 +72,19 @@ class ModelData {
             return (symbolCount + alpha) / (sum + alpha * a.size());
         }
 
-        void saveData(const std::string& fileName, uint64_t k) {
-            saveDataToFile(counts,fileName,k,alpha);
+        void saveData(const std::string& fileName, uint64_t k,char mostFrequent) {
+            saveDataToFile(counts,fileName,k,alpha,mostFrequent);
         }
 
-        void getDataFromFile(const std::string& fileName,uint64_t& k) {
-            counts = readDataFromFile(fileName,k,alpha);
+        void getDataFromFile(const std::string& fileName,uint64_t& k,char& mostFrequent) {
+            counts = readDataFromFile(fileName,k,alpha,mostFrequent);
         }
 };
 
 class MarkovModel {
     private:
         size_t contextSize = 1;
-        char mostFrequent;
+        char mostFrequent = 'a';
         std::unordered_map<char,size_t> counts;
     protected:
         ModelData modelData;
@@ -132,11 +132,11 @@ class MarkovModel {
         }
 
         void saveData(const std::string& fileName) {
-            modelData.saveData(fileName,contextSize);
+            modelData.saveData(fileName,contextSize,mostFrequent);
         }
 
         void getData(const std::string& fileName) {
-            modelData.getDataFromFile(fileName, contextSize);
+            modelData.getDataFromFile(fileName, contextSize,mostFrequent);
         }
 
         MarkovModel(const size_t _contextSize,const double _alpha): contextSize(_contextSize),modelData(_alpha) {}
