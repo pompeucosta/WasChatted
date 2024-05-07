@@ -43,14 +43,7 @@ class ModelData {
             if(!found)
                 return;
             
-            if(!counts.count(context))
-                counts[context] = std::unordered_map<char,size_t>();
-
-            auto& innermap = counts[context];
-            if(!innermap.count(symbol))
-                innermap[symbol] = 1;
-            else
-                innermap[symbol]++;
+            counts[context][symbol]++;
         }
 
         double estimateProbability(char symbol,const std::string& context) {
@@ -60,8 +53,8 @@ class ModelData {
             if(!found)
                 return 1;
 
-            if(!counts.count(context)) {
-                return alpha / (alpha * a.size());
+            if(counts.find(context) == counts.end()) {
+                return alpha / alpha * a.size();
             }
 
             auto& data = counts.at(context);
@@ -73,7 +66,7 @@ class ModelData {
             }
 
             size_t sum = 0;
-            for(const auto& [c,count] : data) {
+            for(auto& [c,count] : data) {
                 sum += count;
             }
 
@@ -124,12 +117,8 @@ class MarkovModel {
             std::string extraBits(contextSize,mostFrequent);
             double bits = 0;
             std::string context(contextSize,mostFrequent);
-            bool found;
             for(size_t i = 0; i < text.size(); i++) {
                 char symbol = text[i];
-                modelData.symbolPosition(symbol, found);
-                if (!found)
-                    continue;
 
                 double prob = modelData.estimateProbability(symbol,context);
                 bits += -log2(prob);
