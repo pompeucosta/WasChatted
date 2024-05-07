@@ -1,2 +1,4 @@
 data/gpt.txt filter=lfs diff=lfs merge=lfs -text
 data/human.txt filter=lfs diff=lfs merge=lfs -text
+bin/gpt_k6 filter=lfs diff=lfs merge=lfs -text
+bin/human_k6 filter=lfs diff=lfs merge=lfs -text
