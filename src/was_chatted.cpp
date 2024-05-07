@@ -61,7 +61,7 @@ class ModelData {
                 return 1;
 
             if(!counts.count(context)) {
-                return 1;
+                return alpha / (alpha * a.size());
             }
 
             auto& data = counts.at(context);
