@@ -10,6 +10,7 @@
 #include <sstream>
 #include <libgen.h>
 #include <unistd.h>
+#include <filesystem>
 
 #include "helpers.h"
 
@@ -55,7 +56,7 @@ class ModelData {
                 return 1;
 
             if(counts.find(context) == counts.end()) {
-                return 1.0 / a.size();
+                return 1;
             }
 
             std::vector<size_t>& data = counts.at(context);
@@ -115,13 +116,9 @@ class MarkovModel {
         double calculateBits(const std::string& text) {
             std::string extraBits(contextSize,mostFrequent);
             double bits = 0;
-            bool found = false;
             std::string context(contextSize,mostFrequent);
             for(size_t i = 0; i < text.size(); i++) {
                 char symbol = text[i];
-                modelData.symbolPosition(symbol, found);
-                if (!found)
-                    continue;
 
                 double prob = modelData.estimateProbability(symbol,context);
                 bits += -log2(prob);
@@ -185,15 +182,22 @@ void FCM(MarkovModel& model, const std::string& filename, size_t k) {
     #define MAX_BUFFER_SIZE 8000
 
     std::ifstream file(filename);
+    std::filesystem::path p {filename};
+    uintmax_t size = std::filesystem::file_size(p);
 
     char* charBuffer = new char[MAX_BUFFER_SIZE];
     std::string data;
-    
-    while (file.readsome(charBuffer,MAX_BUFFER_SIZE)) {
+    size_t extracted = 0,totalExtracted = 0;
+
+    std::cout << "Training..." << std::endl;
+    while ((extracted = file.readsome(charBuffer,MAX_BUFFER_SIZE)) != 0) {
+        totalExtracted += extracted;
+        printf("\r%.0f%%",(static_cast<double>(totalExtracted) / size) * 100);
         data.assign(charBuffer,file.gcount());
         model.train(data);
     }
 
+    printf("\n");
     delete[] charBuffer;
     
     file.close();
