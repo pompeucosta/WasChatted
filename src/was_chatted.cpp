@@ -157,27 +157,6 @@ bool existsFile(const std::string& filename) {
     return file.is_open();
 }
 
-std::unordered_map<char,size_t> alphabet(const std::string& inputFilename) {
-    std::ifstream inputFile(inputFilename);
-
-    std::unordered_map<char,size_t> alphabet;
-
-    char symbol;
-    size_t counter = 0;
-
-    while (inputFile.get(symbol)) {
-        // Verificar se o caractere já está no alfabeto
-        if (alphabet.find(symbol) == alphabet.end()) {
-            // Se não estiver, adicioná-lo ao alfabeto
-            alphabet[symbol] = counter;
-            counter++;
-        }
-    }
-
-    inputFile.close();
-    return alphabet;
-}
-
 void FCM(MarkovModel& model, const std::string& filename, size_t k) {
     #define MAX_BUFFER_SIZE 8000
 
@@ -195,6 +174,8 @@ void FCM(MarkovModel& model, const std::string& filename, size_t k) {
     while ((extracted = file.readsome(charBuffer,MAX_BUFFER_SIZE)) != 0) {
         totalExtracted += extracted;
         printf("\r%.0f%%",(static_cast<double>(totalExtracted) / size) * 100);
+    }
+    
     size_t extracted = 0,totalExtracted = 0;
 
     std::cout << "Training..." << std::endl;
