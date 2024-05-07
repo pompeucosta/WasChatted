@@ -10,6 +10,7 @@
 #include <sstream>
 #include <libgen.h>
 #include <unistd.h>
+#include <filesystem>
 
 #include "helpers.h"
 
@@ -185,14 +186,22 @@ void FCM(MarkovModel& model, const std::string& filename, size_t k) {
     #define MAX_BUFFER_SIZE 8000
 
     std::ifstream file(filename);
+    std::filesystem::path p {filename};
+    uintmax_t size = std::filesystem::file_size(p);
 
     char* charBuffer = new char[MAX_BUFFER_SIZE];
     std::string data;
-    
-    while (file.readsome(charBuffer,MAX_BUFFER_SIZE)) {
+    size_t extracted = 0,totalExtracted = 0;
+
+    std::cout << "Training..." << std::endl;
+    while ((extracted = file.readsome(charBuffer,MAX_BUFFER_SIZE)) != 0) {
+        totalExtracted += extracted;
+        printf("\r%.0f%%",(static_cast<double>(totalExtracted) / size) * 100);
         data.assign(charBuffer,file.gcount());
         model.train(data);
     }
+
+    printf("\n");
 
     delete[] charBuffer;
     
