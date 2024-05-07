@@ -163,19 +163,9 @@ void FCM(MarkovModel& model, const std::string& filename, size_t k) {
     std::ifstream file(filename);
     std::filesystem::path p {filename};
     uintmax_t size = std::filesystem::file_size(p);
-    std::filesystem::path p {filename};
-    uintmax_t size = std::filesystem::file_size(p);
 
     char* charBuffer = new char[MAX_BUFFER_SIZE];
     std::string data;
-    size_t extracted = 0,totalExtracted = 0;
-
-    std::cout << "Training..." << std::endl;
-    while ((extracted = file.readsome(charBuffer,MAX_BUFFER_SIZE)) != 0) {
-        totalExtracted += extracted;
-        printf("\r%.0f%%",(static_cast<double>(totalExtracted) / size) * 100);
-    }
-    
     size_t extracted = 0,totalExtracted = 0;
 
     std::cout << "Training..." << std::endl;
@@ -192,14 +182,13 @@ void FCM(MarkovModel& model, const std::string& filename, size_t k) {
     file.close();
 }
 
-// write to csv file
-void writeStatisticsToFile(const std::string& filename, const double bitsHuman, const double bitsGPT) {
+void writeOutputFile(const std::string& outputFileName, const std::string& filename, const double bitsHuman, const double bitsGPT) {
     std::fstream file;
-    file.open("../results.csv", std::ios::in);
+    file.open(outputFileName, std::ios::in);
     bool fileExists = file.is_open();
     file.close();
 
-    file.open("../results.csv", std::ios::out | std::ios::app);
+    file.open(outputFileName, std::ios::out | std::ios::app);
     if (!fileExists) {
         file << "Filename,Human score,GPT score,Class\n";
     }
@@ -213,7 +202,6 @@ void printHelp(const char* programName) {
     std::cout << "Commands:" << std::endl;
     std::cout << "  train            Trains the model" << std::endl;
     std::cout << "  analyze          Analyzes a text file to determine the class" << std::endl;
-    std::cout << "  statistics       Generates statistics of the model (accuracy,f1 score,...)" << std::endl;
     std::cout << "  -h               Display this help message" << std::endl;
 }
 
@@ -365,18 +353,10 @@ void analyze(int argc,char* argv[]) {
     MarkovModel gptModel(gptModelData);
     double gptBits = gptModel.calculateBits(text);
 
-    if(existsFile(output))
-        writeStatisticsToFile(output, humanBits, gptBits);
-    else
-    {
-        // std::cout << "human bits: " << humanBits << std::endl;
-        // std::cout << "gpt bits: " << gptBits << std::endl;
-        std::cout << ((humanBits < gptBits) ? "Human" : "GPT") << std::endl;
-    }
-}
-
-void statistics(int argc,char* argv[]) {
-
+    if(!output.empty())
+        writeOutputFile(output, textFile,  humanBits, gptBits);
+    
+    std::cout << ((humanBits < gptBits) ? "Human" : "GPT") << std::endl;
 }
 
 int main(int argc,char* argv[]) {
@@ -395,9 +375,6 @@ int main(int argc,char* argv[]) {
     }
     else if(option == "analyze") {
         analyze(argc,argv);
-    }
-    else if(option == "statistics") {
-        statistics(argc,argv);
     }
     else if(option == "-h") {
         printHelp(basename(argv[0]));
