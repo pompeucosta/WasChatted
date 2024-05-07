@@ -18,7 +18,7 @@ class ModelData {
     private:
         double alpha;
         const std::string a = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        std::unordered_map<std::string,std::vector<size_t>> counts;
+        std::unordered_map<std::string,std::unordered_map<char,size_t>> counts;
 
 
     public:
@@ -37,20 +37,17 @@ class ModelData {
 
         void increment(const std::string& context,char symbol) {
             bool found = false;
-            int sIndex = symbolPosition(symbol,found);
+            symbolPosition(symbol,found);
 
             if(!found)
                 return;
             
-            if(counts.find(context) == counts.end()) {
-                counts[context] = std::vector<size_t>(a.size(),0);
-            }
-            counts[context][sIndex]++;
+            counts[context][symbol]++;
         }
 
         double estimateProbability(char symbol,const std::string& context) {
             bool found = false;
-            int sIndex = symbolPosition(symbol,found);
+            symbolPosition(symbol,found);
             
             if(!found)
                 return 1;
@@ -59,16 +56,18 @@ class ModelData {
                 return 1;
             }
 
-            std::vector<size_t>& data = counts.at(context);
+            auto& data = counts.at(context);
             size_t symbolCount = 0;
             try {
-                symbolCount = data.at(sIndex);
+                symbolCount = data.at(symbol);
             }
             catch(const std::exception& ex) { 
-                std::cerr << "Symbol " << symbol << " not found in alphabet used to train the model" << std::endl;
             }
 
-            size_t sum = accumulate(data.begin(),data.end(),0);
+            size_t sum = 0;
+            for(auto& [c,count] : data) {
+                sum += count;
+            }
 
             return (symbolCount + alpha) / (sum + alpha * a.size());
         }
