@@ -16,35 +16,52 @@
 class ModelData {
     private:
         double alpha;
+        const std::string a = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         std::unordered_map<std::string,std::vector<size_t>> counts;
-        std::shared_ptr<std::unordered_map<char,size_t>> alphabet;
 
-        size_t symbolPosition(char symbol) const {
-            return alphabet->at(symbol);
-        }
 
     public:
-        size_t n = 0;
-        ModelData(std::shared_ptr<std::unordered_map<char,size_t>>& _alphabet,const double _alpha): alpha(_alpha),alphabet(_alphabet) {}
+        ModelData(const double _alpha): alpha(_alpha) {}
         ModelData() {}
+        size_t symbolPosition(char symbol,bool& found) const {
+            auto it = std::find(a.begin(),a.end(),symbol);
+            if(it == a.end()) {
+                found = false;
+                return 0;
+            }
+
+            found = true;
+            return std::distance(a.begin(),it);
+        }
 
         void increment(const std::string& context,char symbol) {
+            bool found = false;
+            int sIndex = symbolPosition(symbol,found);
+
+            if(!found)
+                return;
+            
             if(counts.find(context) == counts.end()) {
-                counts[context] = std::vector<size_t>(alphabet->size(),0);
+                counts[context] = std::vector<size_t>(a.size(),0);
             }
-            counts[context][symbolPosition(symbol)]++;
+            counts[context][sIndex]++;
         }
 
         double estimateProbability(char symbol,const std::string& context) {
-            if(counts.find(context) == counts.end()) {
-                n++;
+            bool found = false;
+            int sIndex = symbolPosition(symbol,found);
+            
+            if(!found)
                 return 1;
+
+            if(counts.find(context) == counts.end()) {
+                return 1.0 / a.size();
             }
 
             std::vector<size_t>& data = counts.at(context);
             size_t symbolCount = 0;
             try {
-                symbolCount = data.at(symbolPosition(symbol));
+                symbolCount = data.at(sIndex);
             }
             catch(const std::exception& ex) { 
                 std::cerr << "Symbol " << symbol << " not found in alphabet used to train the model" << std::endl;
@@ -52,18 +69,15 @@ class ModelData {
 
             size_t sum = accumulate(data.begin(),data.end(),0);
 
-            return (symbolCount + alpha) / (sum + alpha * alphabet->size());
+            return (symbolCount + alpha) / (sum + alpha * a.size());
         }
 
         void saveData(const std::string& fileName, uint64_t k) {
-            Data d = {counts,*alphabet};
-            saveDataToFile(d,fileName,k,alpha);
+            saveDataToFile(counts,fileName,k,alpha);
         }
 
         void getDataFromFile(const std::string& fileName,uint64_t& k) {
-            Data d = readDataFromFile(fileName,k,alpha);
-            counts = d.counts;
-            alphabet = std::make_shared<std::unordered_map<char,size_t>>(d.alphabet);
+            counts = readDataFromFile(fileName,k,alpha);
         }
 };
 
@@ -82,9 +96,15 @@ class MarkovModel {
         }
     public:
         void train(const std::string& data) {
+            bool found = false;
             for(size_t i = 0; i < data.size() - contextSize; i++) {
                 std::string context = data.substr(i,contextSize);
                 char symbol = data[i + contextSize];
+
+                modelData.symbolPosition(symbol, found);
+                if (!found)
+                    continue;
+
                 modelData.increment(context,symbol);
                 counts[symbol]++;
             }
@@ -95,15 +115,19 @@ class MarkovModel {
         double calculateBits(const std::string& text) {
             std::string extraBits(contextSize,mostFrequent);
             double bits = 0;
+            bool found = false;
             std::string context(contextSize,mostFrequent);
             for(size_t i = 0; i < text.size(); i++) {
                 char symbol = text[i];
+                modelData.symbolPosition(symbol, found);
+                if (!found)
+                    continue;
+
                 double prob = modelData.estimateProbability(symbol,context);
                 bits += -log2(prob);
                 context = context.substr(1) + symbol;
             }
 
-            std::cout << "number of contexts not found: " << modelData.n << std::endl;
             return bits;
         }
 
@@ -115,7 +139,7 @@ class MarkovModel {
             modelData.getDataFromFile(fileName, contextSize);
         }
 
-        MarkovModel(const size_t _contextSize,const double _alpha,std::shared_ptr<std::unordered_map<char,size_t>>& _alphabet): contextSize(_contextSize),modelData(_alphabet,_alpha) {}
+        MarkovModel(const size_t _contextSize,const double _alpha): contextSize(_contextSize),modelData(_alpha) {}
         MarkovModel(const std::string& modelDataFile) {
             getData(modelDataFile);
         }
@@ -157,7 +181,7 @@ std::unordered_map<char,size_t> alphabet(const std::string& inputFilename) {
     return alphabet;
 }
 
-void FCM(MarkovModel& model, const std::string& filename, size_t k, std::shared_ptr<std::unordered_map<char,size_t>>& alphabet) {
+void FCM(MarkovModel& model, const std::string& filename, size_t k) {
     #define MAX_BUFFER_SIZE 8000
 
     std::ifstream file(filename);
@@ -280,7 +304,7 @@ void train(int argc,char* argv[]) {
         }
     }
 
-    int numOptionsLeft = argc - optind;
+    int numOptionsLeft = argc - optind - 1;
 
     if (numOptionsLeft != 1)
     {
@@ -289,17 +313,14 @@ void train(int argc,char* argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    file = argv[optind];
+    file = argv[++optind];
 
     if(!isValidFile(file)) {
         exit(EXIT_FAILURE);
     }
 
-    std::shared_ptr<std::unordered_map<char,size_t>> alphabetMap = std::make_shared<std::unordered_map<char,size_t>>(alphabet(file));
-    
-
-    MarkovModel results(k,alpha,alphabetMap);
-    FCM(results,file,k,alphabetMap);
+    MarkovModel results(k,alpha);
+    FCM(results,file,k);
     results.saveData(outputFile);
 }
 
@@ -354,7 +375,11 @@ void analyze(int argc,char* argv[]) {
     if(existsFile(output))
         writeStatisticsToFile(output, humanBits, gptBits);
     else
+    {
+        // std::cout << "human bits: " << humanBits << std::endl;
+        // std::cout << "gpt bits: " << gptBits << std::endl;
         std::cout << ((humanBits < gptBits) ? "Human" : "GPT") << std::endl;
+    }
 }
 
 void statistics(int argc,char* argv[]) {

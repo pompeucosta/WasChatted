@@ -20,7 +20,7 @@ void writeMapEntry(std::ofstream& outfile, const std::pair<std::string, std::vec
 }
 
 // Function to save the Data struct to a binary file
-void saveDataToFile(const Data& data, const std::string& filename,uint64_t k,double alpha) {
+void saveDataToFile(const std::unordered_map<std::string,std::vector<size_t>>& data, const std::string& filename,uint64_t k,double alpha) {
     std::ofstream outfile(filename, std::ios::binary);
 
     if (!outfile.is_open()) {
@@ -35,24 +35,12 @@ void saveDataToFile(const Data& data, const std::string& filename,uint64_t k,dou
     outfile.write(reinterpret_cast<char*>(&a),sizeof(double));
 
     // Write the number of entries in counts map
-    size_t numCountsEntries = data.counts.size();
+    size_t numCountsEntries = data.size();
     outfile.write(reinterpret_cast<char*>(&numCountsEntries), sizeof(numCountsEntries));
 
     // Write each entry from counts map
-    for (const auto& entry : data.counts) {
+    for (const auto& entry : data) {
         writeMapEntry(outfile, entry);
-    }
-
-    // Write the number of elements in the map
-    size_t numElements = data.alphabet.size();
-    outfile.write(reinterpret_cast<char*>(&numElements), sizeof(numElements));
-
-    // Write each element (key, value) to the file
-    for (const auto& [key, value] : data.alphabet) {
-        char tempKey = key;
-        size_t tempValue = value;
-        outfile.write(reinterpret_cast<const char*>(&tempKey), sizeof(tempKey));
-        outfile.write(reinterpret_cast<const char*>(&tempValue), sizeof(tempValue));
     }
 
     outfile.close();
@@ -84,8 +72,8 @@ std::pair<std::string, std::vector<size_t>> readMapEntry(std::ifstream& infile) 
 }
 
 // Function to read the Data struct from a binary file
-Data readDataFromFile(const std::string& filename,uint64_t& k,double& alpha) {
-    Data data;
+std::unordered_map<std::string,std::vector<size_t>> readDataFromFile(const std::string& filename,uint64_t& k,double& alpha) {
+    std::unordered_map<std::string,std::vector<size_t>> data;
     std::ifstream infile(filename, std::ios::binary);
 
     if (!infile.is_open()) {
@@ -103,20 +91,7 @@ Data readDataFromFile(const std::string& filename,uint64_t& k,double& alpha) {
     // Read each entry from counts map
     for (size_t i = 0; i < numCountsEntries; i++) {
         auto entry = readMapEntry(infile);
-        data.counts.insert(entry);
-    }
-
-    // Read number of elements
-    size_t numElements;
-    infile.read(reinterpret_cast<char*>(&numElements), sizeof(numElements));
-
-    // Read each element (key, value) from the file
-    for (size_t i = 0; i < numElements; i++) {
-        char key;
-        size_t value;
-        infile.read(reinterpret_cast<char*>(&key), sizeof(key));
-        infile.read(reinterpret_cast<char*>(&value), sizeof(value));
-        data.alphabet[key] = value;
+        data.insert(entry);
     }
 
     infile.close();
