@@ -7,7 +7,7 @@
 
 ## How to build the program
 ```bash
-g++ -o main was_chatted.cpp helper.cpp -03
+g++ -o main was_chatted.cpp helper.cpp -O3
 
 ```
 
