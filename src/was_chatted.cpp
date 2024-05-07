@@ -54,7 +54,7 @@ class ModelData {
                 return 1;
 
             if(counts.find(context) == counts.end()) {
-                return alpha / alpha * a.size();
+                return 1;
             }
 
             auto& data = counts.at(context);
