@@ -11,6 +11,7 @@
 #include <libgen.h>
 #include <unistd.h>
 #include <filesystem>
+#include <filesystem>
 
 #include "helpers.h"
 
@@ -18,7 +19,7 @@ class ModelData {
     private:
         double alpha;
         const std::string a = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        std::unordered_map<std::string,std::vector<size_t>> counts;
+        std::unordered_map<std::string,std::unordered_map<char,size_t>> counts;
 
 
     public:
@@ -37,38 +38,37 @@ class ModelData {
 
         void increment(const std::string& context,char symbol) {
             bool found = false;
-            int sIndex = symbolPosition(symbol,found);
+            symbolPosition(symbol,found);
 
             if(!found)
                 return;
             
-            if(counts.find(context) == counts.end()) {
-                counts[context] = std::vector<size_t>(a.size(),0);
-            }
-            counts[context][sIndex]++;
+            counts[context][symbol]++;
         }
 
         double estimateProbability(char symbol,const std::string& context) {
             bool found = false;
-            int sIndex = symbolPosition(symbol,found);
+            symbolPosition(symbol,found);
             
             if(!found)
                 return 1;
 
             if(counts.find(context) == counts.end()) {
-                return 1.0 / a.size();
+                return 1;
             }
 
-            std::vector<size_t>& data = counts.at(context);
+            auto& data = counts.at(context);
             size_t symbolCount = 0;
             try {
-                symbolCount = data.at(sIndex);
+                symbolCount = data.at(symbol);
             }
             catch(const std::exception& ex) { 
-                std::cerr << "Symbol " << symbol << " not found in alphabet used to train the model" << std::endl;
             }
 
-            size_t sum = accumulate(data.begin(),data.end(),0);
+            size_t sum = 0;
+            for(auto& [c,count] : data) {
+                sum += count;
+            }
 
             return (symbolCount + alpha) / (sum + alpha * a.size());
         }
@@ -116,13 +116,9 @@ class MarkovModel {
         double calculateBits(const std::string& text) {
             std::string extraBits(contextSize,mostFrequent);
             double bits = 0;
-            bool found = false;
             std::string context(contextSize,mostFrequent);
             for(size_t i = 0; i < text.size(); i++) {
                 char symbol = text[i];
-                modelData.symbolPosition(symbol, found);
-                if (!found)
-                    continue;
 
                 double prob = modelData.estimateProbability(symbol,context);
                 bits += -log2(prob);
@@ -188,9 +184,17 @@ void FCM(MarkovModel& model, const std::string& filename, size_t k) {
     std::ifstream file(filename);
     std::filesystem::path p {filename};
     uintmax_t size = std::filesystem::file_size(p);
+    std::filesystem::path p {filename};
+    uintmax_t size = std::filesystem::file_size(p);
 
     char* charBuffer = new char[MAX_BUFFER_SIZE];
     std::string data;
+    size_t extracted = 0,totalExtracted = 0;
+
+    std::cout << "Training..." << std::endl;
+    while ((extracted = file.readsome(charBuffer,MAX_BUFFER_SIZE)) != 0) {
+        totalExtracted += extracted;
+        printf("\r%.0f%%",(static_cast<double>(totalExtracted) / size) * 100);
     size_t extracted = 0,totalExtracted = 0;
 
     std::cout << "Training..." << std::endl;
@@ -202,7 +206,6 @@ void FCM(MarkovModel& model, const std::string& filename, size_t k) {
     }
 
     printf("\n");
-
     delete[] charBuffer;
     
     file.close();
