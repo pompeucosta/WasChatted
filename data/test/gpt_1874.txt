@@ -1,0 +1,1 @@
+Gizzard is an open source sharding framework for the Scala programming language. It provides a high-level API for coordinating distributed computations, as well as low-level support for distributed transactions and messaging.  Gizzard was created by Twitter in collaboration with HP and Databricks. It is released under the Apache 2.0 license.

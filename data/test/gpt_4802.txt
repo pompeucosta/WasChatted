@@ -1,0 +1,1 @@
+Algorism is the technique of performing basic arithmetic operations using only the symbols +, -, ×, ÷.  Algorism is the simplest arithmetic technique and is used in many everyday tasks. It is also used in some scientific computing algorithms.

@@ -1,0 +1,1 @@
+In telecommunication, data signaling rate (DSR), also known as signaling rate, is the rate at which information is transferred between network nodes in a telecommunication system.

@@ -1,0 +1,1 @@
+A regenerative circuit is an amplifier circuit that employs a feedback loop to increase the gain of an amplifier. The loop uses energy from the output signal to help power the circuit's input, thus sustaining or restoring the output signal's amplitude.

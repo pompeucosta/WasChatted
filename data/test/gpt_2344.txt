@@ -1,0 +1,1 @@
+In cryptography, a padding oracle attack is a type of attack that can be used to obtain information that would otherwise be protected by the security of a cryptosystem. The attack is performed by an attacker who knows some of the padding used in a cryptosystem, and can use this knowledge to obtain information that would not be possible to obtain through other means.

@@ -1,0 +1,1 @@
+A tunnel transmitter allows wireless reception in a tunnel. This is accomplished by transmitting and receiving radio waves through the tunnel walls. Tunnel transmitters are most commonly used in mines and other underground applications where it is difficult or impossible to install an antenna outside the tunnel.

@@ -1,0 +1,1 @@
+WorldEdit is an editing tool for the Java platform. It allows users to create, edit and save changes to regions of a map.  WorldEdit is a powerful, yet easy to use, editing tool for the Java platform. It allows users to create, edit, and save changes to regions of a map. With WorldEdit, you can quickly create simple maps or complex projects, and share them with others.

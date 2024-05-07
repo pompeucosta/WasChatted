@@ -1,0 +1,1 @@
+Cas12a (CRISPR associated protein 12a, previously known as CRISPR-associated helicase 12a) is an enzyme that in humans is encoded by the "CAS12A" gene.  Cas12a belongs to the CRISPR-associated CRISPR-adaptor (Cas) family. Cas12a catalyzes the translocation of palindromic crRNA precursors across the viral DNA-protein complex, leading to the destruction of viral genomic DNA.

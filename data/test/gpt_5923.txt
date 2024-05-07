@@ -1,0 +1,1 @@
+A point accepted mutation — also known as a consensus mutation or a minor consensus mutation — is a change to the code of a software application that has been accepted by all developers working on the software as a necessary change.

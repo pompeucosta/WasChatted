@@ -1,0 +1,1 @@
+Boden's Mate is a checkmating pattern in the game of chess. It is a pawn move on the queenside, involving moving a pawn two squares towards a rook on the seventh rank, then moving the rook to the square over which the pawn crossed. The pawn can only be moved forward and cannot capture anything.

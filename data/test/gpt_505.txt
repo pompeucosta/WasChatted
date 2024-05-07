@@ -1,0 +1,1 @@
+A shell scrape, also referred to as a shell collection, is a technique used in digital forensics to collect metadata from files and folders on a computer. The metadata is data about the files and folders, including their name, size, creation time, and last accessed time.

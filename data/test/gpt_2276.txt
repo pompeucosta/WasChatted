@@ -1,0 +1,1 @@
+O3D is an open-source (BSD license) JavaScript library for 3D rendering and animation. It is designed to be fast, lightweight, and easy-to-use, with support for a wide range of 3D hardware and software.  O3D was created in 2007 by Jason Davies and Ivan Poupyrev. The library has since been used by companies such as Google, Facebook, Amazon, and Samsung.

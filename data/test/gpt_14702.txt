@@ -1,0 +1,1 @@
+In computational geometry, an alpha shape, or alpha structure, is a generalization of the regular polygon. It is a convex polygon with at least three non-collinear vertices and no more than six non-collinear edges. It has a symmetry group of order 8.  The first alpha shapes were discovered in the 1960s by Kenneth Appel and Wolfgang Haken.

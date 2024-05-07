@@ -1,0 +1,1 @@
+Ohm's law states that the current through an electrical conductor is proportional to the voltage across the conductor.

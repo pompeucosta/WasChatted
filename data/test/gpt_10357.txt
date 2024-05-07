@@ -1,0 +1,1 @@
+Newt is a programming library for color-free programming in Haskell. It is a fork of the Glasgow Haskell Compiler's ghc-color library.  Newt is designed to make color-free programming easier by providing a uniform way to access colors and color specifications. It also has facilities for handling input and output colors, as well as support for transparency.

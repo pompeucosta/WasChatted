@@ -1,0 +1,1 @@
+A stereo camera is a type of camera that uses two images to create a three-dimensional image. It is similar to a regular camera, but the camera has two lenses that are used to create an image that appears to be from different angles.

@@ -1,0 +1,1 @@
+In digital logic, a hazard is an event that can occur during the execution of a digital circuit, causing an error. For example, a hazard may be a power supply voltage that falls below a certain threshold, or a clock signal that is too high or too low.

@@ -1,0 +1,1 @@
+In computer science, priority inversion is a technique for reversing the order of execution of two or more concurrent tasks, so that the task with the highest priority is executed first.

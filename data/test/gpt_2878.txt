@@ -1,0 +1,1 @@
+AutoAdmit, also known as Xoxohth, is a freeware program for Windows that automates the admission process for online courses. It can be used to automatically apply for admission, create and submit transcripts, and manage student records. AutoAdmit also provides a user interface that makes it easy to manage multiple courses.

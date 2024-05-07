@@ -1,0 +1,1 @@
+Vorbis is a free and open-source software audio codec developed by the Xiph.Org Foundation. It is patent free, uses a Lossy compression algorithm, and supports multiple audio formats.  Vorbis was designed to be efficient, with a low memory and CPU footprint. It has been used in a number of commercial products, including the proprietary audio format FLAC.

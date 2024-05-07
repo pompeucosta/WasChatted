@@ -1,0 +1,1 @@
+In commutative algebra, a quasi-excellent ring is a ring that is also a quasi-algebra, meaning that every quasi-excellent ring has a faithful representation as an algebra.  A quasi-excellent ring is a ring that is also a quasi-algebra, meaning that every quasi-excellent ring has a faithful representation as an algebra.

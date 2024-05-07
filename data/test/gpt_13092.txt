@@ -1,0 +1,1 @@
+In syntax, shifting occurs when two or more elements of an expression are moved around relative to each other. This can be done for various reasons, including to change the order of operations or to improve readability.

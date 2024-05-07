@@ -1,0 +1,1 @@
+A non-directional (radio) beacon (NDB) is a device used to emit a signal for the purpose of aiding the navigation of aircraft. These beacons use a wide range of frequencies, and may be either active or passive.

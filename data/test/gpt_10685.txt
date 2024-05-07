@@ -1,0 +1,1 @@
+In group theory, Hajós's theorem states that every abelian group has a unique maximal subgroup. This theorem is named after the Hungarian mathematician Pál Hajós.

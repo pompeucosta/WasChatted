@@ -1,0 +1,1 @@
+ZOG was an early hypertext system developed by Ted Nelson between 1966 and 1967 at the University of Utah. The system used a simple text-based user interface, allowing users to browse, search, and print documents on a computer.

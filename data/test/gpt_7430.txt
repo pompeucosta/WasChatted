@@ -1,0 +1,1 @@
+A liquid-crystal laser is a laser that uses a liquid crystal medium as the active element. The advantage of liquid-crystal lasers over other types of lasers is their high degree of controllability and their very low output power requirements, making them ideal for applications where low power is essential, such as point-of-sale displays and laser pointer pointers.

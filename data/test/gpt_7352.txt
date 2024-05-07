@@ -1,0 +1,1 @@
+Alspach's conjecture is a mathematical theorem that states that for any real number a there exists a real number b such that a + b is an integer.

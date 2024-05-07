@@ -1,0 +1,1 @@
+Hick's law, or the Hick–Hyman law, named after the two scientists who proposed it, is a formal mathematical equation that describes the stability of pairs of particles in a system.  The equation states that the stability of two particles in a system is proportional to their separation distance and inversely proportional to their mass ratio.

@@ -1,0 +1,1 @@
+A random-access memory digital-to-analog converter (RAMDAC) is an electronic circuit used to convert digital signals into analog signals. RAMDACs are used in digital audio players, video players, and other devices that require an output to an analog audio or video output.
