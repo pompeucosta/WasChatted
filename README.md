@@ -27,7 +27,7 @@ The 4 parameters are:
 | Parameter 	|                 Explanation                          | Default Value 	|
 |:---------:	|:---------------------------------------------------: |:-------------:	|
 |     o     	|  Name of the output file containing the trained data |  output.bin   	|
-|     k     	|     Set the size of the kmer           	             |     10        	|
+|     k     	|     Set the size of the kmer           	             |     4        	|
 |     s     	|     Sets the value of alpha/smoothing 	             |     1       	  |
 |     h     	|     Display the help message       	                 |              	|
 
