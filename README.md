@@ -26,8 +26,8 @@ The program has 2 commands and 1 parameter.
 | Parameter 	|                 Explanation                          | Default Value 	|
 |:---------:	|:---------------------------------------------------: |:-------------:	|
 |     o     	|  Name of the output file containing the trained data |  output.bin   	|
-|     k     	|     Set the size of the kmer           	             |     4        	|
-|     s     	|     Sets the value of alpha/smoothing 	             |     1       	  |
+|     k     	|     Sets the context size              	             |     4        	|
+|     a     	|     Sets the value of alpha/smoothing 	             |     1       	  |
 |     h     	|     Display the help message       	                 |              	|
 
 
