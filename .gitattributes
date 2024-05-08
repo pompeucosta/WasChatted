@@ -1,4 +1,8 @@
 data/train/gpt.txt filter=lfs diff=lfs merge=lfs -text
 data/train/human.txt filter=lfs diff=lfs merge=lfs -text
+bin/gpt_k5.bin filter=lfs diff=lfs merge=lfs -text
+bin/human_k5.bin filter=lfs diff=lfs merge=lfs -text
 bin/gpt_k6.bin filter=lfs diff=lfs merge=lfs -text
 bin/human_k6.bin filter=lfs diff=lfs merge=lfs -text
+bin/gpt_k7.bin filter=lfs diff=lfs merge=lfs -text
+bin/human_k7.bin filter=lfs diff=lfs merge=lfs -text
