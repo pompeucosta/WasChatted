@@ -12,9 +12,8 @@ g++ -o main was_chatted.cpp helpers.cpp -O3
 ```
 
 ## Parameters
-The program accepts 4 parameters.
+The program has 2 commands and 1 parameter.
 
-The 4 parameters are:
 | Parameter 	   |            Explanation    	                                | 
 |:-------------: |:--------------------------------------------------------:	|
 |     train      |     Trains the model    	                                  |
@@ -22,7 +21,7 @@ The 4 parameters are:
 |     -h     	   |         Display this help message                        	|
 
 ### Train
-  Using this parameter it can be added 4 addictional parameters.
+  This command contains 4 parameters.
 
 | Parameter 	|                 Explanation                          | Default Value 	|
 |:---------:	|:---------------------------------------------------: |:-------------:	|
@@ -37,8 +36,7 @@ It's important to note that:
 - a must be a decimal value greater than 0
 
 ### Analyze
-
-  Using this parameter it can be added 4 addictional parameters.
+  This command contains 2 parameters.
 
 | Parameter 	|              Explanation               |
 |:---------:	|:-------------------------------------: |
