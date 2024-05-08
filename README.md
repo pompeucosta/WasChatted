@@ -7,7 +7,7 @@
 
 ## How to build the program
 ```bash
-g++ -o main was_chatted.cpp helper.cpp -O3
+g++ -o main was_chatted.cpp helpers.cpp -O3
 
 ```
 
@@ -19,7 +19,6 @@ The 4 parameters are:
 |:-------------: |:--------------------------------------------------------:	|
 |     train      |     Trains the model    	                                  |
 |     analyze    |  Analyzes a text file to determine the class               |
-|     statistics |  Generates statistics of the model (accuracy,f1 score,..) 	|
 |     -h     	   |         Display this help message                        	|
 
 ### Train
@@ -45,13 +44,3 @@ It's important to note that:
 |:---------:	|:-------------------------------------: |
 |     o     	|   File to output result to             |
 |     h     	|     Display the help message           |
-
-
-
-### Statistics
-The *s* optional parameter outputs statistics to a json file. The objective of those is statistics is to be processed by a script (python for example) for analysis.
-
-The statistics outputed are the following:
-- Accuracy
-- Human texts accuracy
-- ChatGpt texts Accuracy
