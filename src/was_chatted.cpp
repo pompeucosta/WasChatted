@@ -224,7 +224,7 @@ void printAnalyzeHelp(const char* programName) {
 void train(int argc,char* argv[]) {
     int option;
     double alpha = 1;
-    uint64_t k = 10;
+    uint64_t k = 4;
     std::string file,outputFile("output.bin");
     while((option = getopt(argc,argv,"o:a:k:h")) != -1) {
         switch (option)
