@@ -17,7 +17,7 @@ The program has 2 commands and 1 parameter.
 | Parameter 	   |            Explanation    	                                | 
 |:-------------: |:--------------------------------------------------------:	|
 |     train      |     Trains the model    	                                  |
-|     analyze    |  Analyzes a text file to determine the class               |
+|     analyse    |  Analyzes a text file to determine the class               |
 |     -h     	   |         Display this help message                        	|
 
 ### Train

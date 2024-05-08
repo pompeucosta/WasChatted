@@ -201,7 +201,7 @@ void printHelp(const char* programName) {
     std::cout << "Usage: " << programName << " <command> [command options...]" << std::endl;
     std::cout << "Commands:" << std::endl;
     std::cout << "  train            Trains the model" << std::endl;
-    std::cout << "  analyze          Analyzes a text file to determine the class" << std::endl;
+    std::cout << "  analyse          Analyses a text file to determine the class" << std::endl;
     std::cout << "  -h               Display this help message" << std::endl;
 }
 
@@ -214,8 +214,8 @@ void printTrainHelp(const char* programName) {
     std::cout << "  -h               Display this help message" << std::endl;
 }
 
-void printAnalyzeHelp(const char* programName) {
-    std::cout << "Usage: " << programName << " analyze <input file> <human model data file> <gpt model data file> [options...]" << std::endl;
+void printAnalyseHelp(const char* programName) {
+    std::cout << "Usage: " << programName << " analyse <input file> <human model data file> <gpt model data file> [options...]" << std::endl;
     std::cout << "Options:" << std::endl;
     std::cout << "  -o               File to output result to" << std::endl;
     std::cout << "  -h               Display this help message" << std::endl;
@@ -305,7 +305,7 @@ void train(int argc,char* argv[]) {
     results.saveData(outputFile);
 }
 
-void analyze(int argc,char* argv[]) {
+void analyse(int argc,char* argv[]) {
     int option;
     std::string textFile,humanModelData,gptModelData,output("");
     while ((option = getopt(argc, argv, "o:h")) != -1)
@@ -319,7 +319,7 @@ void analyze(int argc,char* argv[]) {
             std::cout << "Invalid option" << std::endl;
         case 'h':
         default:
-            printAnalyzeHelp(basename(argv[0]));
+            printAnalyseHelp(basename(argv[0]));
             exit(EXIT_SUCCESS);
             break;
         }
@@ -329,7 +329,7 @@ void analyze(int argc,char* argv[]) {
     
     if(numberOfFiles != 3) {
         std::cerr << "Invalid number of files" << std::endl;
-        printAnalyzeHelp(basename(argv[0]));
+        printAnalyseHelp(basename(argv[0]));
         exit(EXIT_FAILURE);
     }
 
@@ -373,8 +373,8 @@ int main(int argc,char* argv[]) {
     if(option == "train") {
         train(argc,argv);
     }
-    else if(option == "analyze") {
-        analyze(argc,argv);
+    else if(option == "analyse") {
+        analyse(argc,argv);
     }
     else if(option == "-h") {
         printHelp(basename(argv[0]));
