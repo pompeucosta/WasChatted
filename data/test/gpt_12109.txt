@@ -1,1 +1,0 @@
-The Technique for Order of Preference by Simplex Method (TOPSIS) is a procedure for solving the problem of ordered choice in which preferences are known and each choice has a rank. The technique is named after its inventor, Solomon L. Kullback, who first published a paper on the subject in 1928.

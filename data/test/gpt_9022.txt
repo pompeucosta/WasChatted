@@ -1,1 +1,0 @@
-DoubleShot, first published in 2000, was the first flash game engine. It has been used in many popular games, such as the CSI series and Kingdom Hearts.  DoubleShot is a powerful and easy-to-use 3D game engine that makes creating 2D and 3D games fast and fun. It has a wide range of features, including integrated physics, flexible animation system, and built-in audio support.

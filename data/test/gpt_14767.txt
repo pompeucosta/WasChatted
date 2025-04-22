@@ -1,1 +1,0 @@
-A luminous efficiency function or luminosity function is a measure of the luminous flux (measured in lumens) produced by a light source.  Luminous efficiency is typically used to compare different types of light sources, and to determine the maximum possible output for a given light source.

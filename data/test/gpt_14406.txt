@@ -1,1 +1,0 @@
-The Cyrix Cx486SLC is a x86 microprocessor designed by Cyrix Corporation. It was introduced in 1988 and was the first x86 microprocessor to use an on-chip floating-point unit. The Cx486SLC is also notable for its use of a synchronous 64-bit memory interface, which allowed it to compete with contemporary processors using the more common 80-bit memory interface.

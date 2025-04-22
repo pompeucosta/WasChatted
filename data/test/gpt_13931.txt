@@ -1,1 +1,0 @@
-Optical flow or optic flow is the term used in computer vision and 3D graphics to describe the motion of objects in an image or video.  Optical flow can be used to track the movement of objects over time, and is a key ingredient in motion tracking and optical character recognition. It can also be used to generate a frame-by-frame animation of the movement of objects in an image.

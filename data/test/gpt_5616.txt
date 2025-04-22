@@ -1,1 +1,0 @@
-Summit or OLCF-4 is a supercomputer developed by Oak Ridge National Laboratory in Tennessee, United States. It was completed in October 2009 and has a peak performance of 175 petaflops. Summit is the fourth fastest supercomputer in the world as of January 2019.

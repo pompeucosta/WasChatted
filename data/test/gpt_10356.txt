@@ -1,1 +1,0 @@
-Thermo-Fax (very often Thermo fax) is 3M's name for a process patented in 1984 that uses a laser to create a thermal image of a document. The image is then converted to a PDF file.  Thermofax is a process patented in 1984 by 3M. The technique uses a laser to create a thermal image of a document. The image is then converted to a PDF file.

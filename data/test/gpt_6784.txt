@@ -1,1 +1,0 @@
-Src:Card is a 1–2 player card game for ages 10 and up. It is a fast-paced, strategy game that simulates a duel between two wizards.  In Src:Card, players take turns playing cards from their hand onto the table, trying to make as many matches as possible. The first player to score 10 points wins the game.

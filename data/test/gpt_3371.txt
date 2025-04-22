@@ -1,1 +1,0 @@
-A Unix domain socket or IPC socket is an interface between two computers on a network. It allows one computer to send messages to another computer, and to receive messages from that other computer.

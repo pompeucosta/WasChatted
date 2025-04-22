@@ -1,1 +1,0 @@
-In computer science, type safety is the property of a programming language or system that guarantees that all expressions in the language or system are of a certain type.

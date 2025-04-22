@@ -1,1 +1,0 @@
-AdvFS, also known as Tru64 UNIX Advanced File System, is a file system developed by Sun Microsystems. It is a file system designed as a replacement for the traditional Unix filesystem.  AdvFS was first released in 1995 and was based on the design of the Solaris 10 ZFS file system. In 2001, Sun discontinued development of AdvFS and replaced it with their new ZFS file system.

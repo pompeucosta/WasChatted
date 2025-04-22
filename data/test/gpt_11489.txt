@@ -1,1 +1,0 @@
-In quantum mechanics, a density matrix is a vector consisting of the density of states for an atom in a particular energy level. The matrix sums up the densities of all possible configurations of the atoms in that energy level.  A density matrix can be used to calculate the energy levels of an atom and the probability of finding a particular state.

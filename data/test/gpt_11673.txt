@@ -1,1 +1,0 @@
-The memory confusion protocol is a technique used in information security to confuse an attacker by disguising the true location of data in memory.

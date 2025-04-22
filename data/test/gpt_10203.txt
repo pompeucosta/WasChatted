@@ -1,1 +1,0 @@
-An RF chain is a cascade of interconnected radiofrequency links. It is a network that allows wireless devices to communicate with each other without the need for a physical connection.

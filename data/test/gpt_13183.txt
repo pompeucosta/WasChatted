@@ -1,1 +1,0 @@
-Liquid capacitive inclinometers are inclinometers (or clinometers) that use a liquid as the sensing medium. This liquid is typically a mixture of alcohol and water, but other liquids such as acetone or glycerin can also be used. The sensitivity of these inclinometers can be adjusted by changing the relative concentration of alcohol and water in the liquid.

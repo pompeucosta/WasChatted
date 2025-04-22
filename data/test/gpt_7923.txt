@@ -1,1 +1,0 @@
-EFTP was a very simple file transfer protocol used on the Internet in the 1990s. The protocol was based on a client-server model, in which a user's computer acted as both a client and a server. EFTP clients connected to an EFTP server to request files or folders, and the server would then send the requested files or folders back to the client.

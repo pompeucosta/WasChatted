@@ -1,1 +1,0 @@
-RoboJackets is a group of Georgia Tech students who are working on a project to create a powered armor suit. The suit will be able to protect the wearer from harm and allow them to complete dangerous tasks with ease.

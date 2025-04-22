@@ -1,1 +1,0 @@
-In mathematics, the Minkowski–Hlawka theorem is a result in the calculus of variations that states that the difference between two solutions to a variational problem is independent of the variation parameter.

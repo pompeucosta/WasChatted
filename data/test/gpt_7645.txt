@@ -1,1 +1,0 @@
-A clock position, or clock bearing, is the horizontal and vertical positions of a clock's center of mass in space.  A clock's position is important because it affects the time it takes for its bells to ring. A clock's position is also important because it affects the reaction time of people who are trying to stay on schedule.

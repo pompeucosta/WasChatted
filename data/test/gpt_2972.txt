@@ -1,1 +1,0 @@
-The Negishi coupling is a widely employed electrical connector in the semiconductor industry. It is named after its inventor, Takeshi Negishi.  The Negishi coupling is a wire-to-wire contact mechanism for electrical connection between two semiconductor devices. The contact is made by a short metal spring that presses against a long metal spring on the other side.

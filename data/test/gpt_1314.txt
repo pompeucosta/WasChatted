@@ -1,1 +1,0 @@
-In mathematics, a matrix is conformable if it satisfies the following equation:  .  This equation states that the matrix is a congruent matrix if and only if the columns of are all the same length. A conformable matrix is important in mathematical physics, as it allows for the solving of systems of linear equations using the QR algorithm.

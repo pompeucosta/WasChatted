@@ -1,1 +1,0 @@
-In physics, the poppy-seed bagel theorem concerns the mathematical properties of certain doughnut-shaped objects that can be created by revolving a circular hole around a center point.  The theorem states that the area of a doughnut-shaped object is proportional to the square of the distance from the center of the hole, provided that the hole is big enough.

@@ -1,1 +1,0 @@
-In mathematics, George Glauberman's ZJ theorem states that every nonzero rational function has a unique real root.  The ZJ theorem is a fundamental result in mathematics, stating that for any nonzero rational function there exists a unique real root. The theorem was first proved by George Glauberman in 1954.

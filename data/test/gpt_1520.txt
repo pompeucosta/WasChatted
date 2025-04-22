@@ -1,1 +1,0 @@
-Hicom 300 is a telephone exchange system which was designed by Noritaka Hibi of NEC Corporation. It is based on the concept of multiplexing and uses a hierarchical architecture.  Hicom 300 was commercialized in 1984 and became the world's first exchange system to use multiplexing technology. It has been used in many countries, including Japan, the United States, and Europe.

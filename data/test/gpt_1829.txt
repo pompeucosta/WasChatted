@@ -1,1 +1,0 @@
-A Unicode font is a computer font that supports the Unicode character set. Unicode fonts are used for displaying characters from all of the different scripts in the Unicode character set.

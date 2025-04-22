@@ -1,1 +1,0 @@
-WR 120 is a binary containing two 120-bit words. It is a member of the WR family of word representations, and is specifically designed for use in cryptography.

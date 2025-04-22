@@ -1,1 +1,0 @@
-A core router is a router designed to handle the majority of network traffic. Core routers are often placed in the core of a network, and are used to route traffic to and from other devices.

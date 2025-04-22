@@ -1,1 +1,0 @@
-Mathematical tables are lists of numbers showing the value of a function at different points in its domain. They are also used for solving problems and designing algorithms.  Mathematical tables can be found in many textbooks and scientific papers. They are also used in probability and statistics.

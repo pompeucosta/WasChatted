@@ -1,1 +1,0 @@
-Uptake signal sequences (USS) are short DNA sequences that are recognized by the cellular machinery that controls the uptake of macromolecules into cells. USSs are often found near the 5' end of gene transcripts and are thought to regulate the rate and amount of gene expression.

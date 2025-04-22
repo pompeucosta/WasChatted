@@ -1,1 +1,0 @@
-The Rubik's Cube group is a group of six permutations of the Rubik's Cube, which can be arranged in a cycle. The cycle can be represented by the following diagram:  The group is named after the inventor of the Rubik's Cube, Ernő Rubik.

@@ -1,1 +1,0 @@
-Anti-replay is a sub-protocol of IPsec that helps protect against replay attacks.

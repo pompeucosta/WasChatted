@@ -1,1 +1,0 @@
-Microtremor is a low amplitude (in the range of 0.01 to 0.5 Hz) vibration that can be felt by individuals close to an earthquake fault. It is caused by the displacement of soil, rock, or water within the earth's crust, and can be detected using sensitive instruments. Microtremors are a common occurrence near active faults, and can be used to monitor the activity of these faults.

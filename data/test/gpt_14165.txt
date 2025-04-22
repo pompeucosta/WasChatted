@@ -1,1 +1,0 @@
-In combinatorial mathematics, an alternating permutation (or alternating substitution) is a permutation of the set of all positive integers that swaps every two elements.  For example, the permutation (3,2,1), which is written as 3 2 1, is an alternating permutation because it switches the order of 3 and 2.

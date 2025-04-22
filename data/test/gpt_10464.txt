@@ -1,1 +1,0 @@
-The bypass ratio (BPR) of a turbofan engine is the ratio of the bypass air flow to the total air flow through the engine.  The bypass ratio is a key parameter in turbofan engine design and is used to optimize engine performance. It affects both the efficiency of the engine and its exhaust noise.

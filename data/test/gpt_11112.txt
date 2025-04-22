@@ -1,1 +1,0 @@
-Contact image sensors (CIS) are image sensors that use a physical contact between the image sensor and a surface to detect an image. The surface may be a piece of glass, a mirror, or another sensor-covered surface. This allows for very low-cost and flexible devices that can be used in a variety of applications, such as smart phones, cameras, and tablets.

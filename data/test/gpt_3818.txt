@@ -1,1 +1,0 @@
-A batch file is a script file that is used to automate a task. It is a type of Windows file.

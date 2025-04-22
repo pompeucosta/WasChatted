@@ -1,1 +1,0 @@
-ITU-T Recommendation Q.931 is the ITU standard for telephony call control functions. It defines the signaling and call processing procedures for voice and multimedia calls, as well as the associated interfaces.   Q.931 was initially developed in 1988 and revised in 1994, 2000, 2007, and 2016. The current version, Q.931-2016, was adopted in March 2017.

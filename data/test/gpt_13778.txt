@@ -1,1 +1,0 @@
-In mathematics, a Leray cover(ing) is a covering of a polygon by a finite family of convex hulls.  The Leray cover is a covering of a polygon by a finite family of convex hulls. It was introduced by Gaston Leray in 1887 and named for him.

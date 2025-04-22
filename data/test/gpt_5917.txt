@@ -1,1 +1,0 @@
-Reload4j was created by the original author of the popular Java web application development framework, Tomcat. Reload4j is a library for reloading Java web applications. It helps to automate the reloading of web applications by providing a simple and concise API.

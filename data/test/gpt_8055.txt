@@ -1,1 +1,0 @@
-In computing, an optical disc drive (ODD) is a device that reads and writes optical discs, such as compact discs (CDs) and digital versatile discs (DVDs).  An optical disc drive is connected to a computer via an interface such as IEEE 1394 or USB. The drive reads data from or writes data to optical discs.

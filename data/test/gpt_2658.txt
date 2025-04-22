@@ -1,1 +1,0 @@
-A blink comparator is a viewing apparatus used to compare the appearance of two or more moving objects. It consists of a pair of glasses with a small light in each lens. The user looks through the glasses at the objects and blinks rapidly. The interval between blinks is measured, and the difference in brightness between the objects is calculated.

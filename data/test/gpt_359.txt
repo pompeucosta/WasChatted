@@ -1,1 +1,0 @@
-In mathematics, the cross product or vector product is a vector operation that is defined on two vectors in a Cartesian coordinate system. The cross product of two vectors is denoted by the symbol   , and it is represented by the equation  .

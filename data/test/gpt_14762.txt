@@ -1,1 +1,0 @@
-A motion compensator is a device that compensates for the motion of an object by altering the output of a control system.  Motion compensators are used in many applications, including aircraft control, robotics, and industrial machinery. They are also used in video gaming to compensate for the movement of the player character.

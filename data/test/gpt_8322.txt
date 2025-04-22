@@ -1,1 +1,0 @@
-The TMS34010, developed by Texas Instruments and introduced in 1984, is a general-purpose 8-bit microcontroller. It is the first microcontroller to feature on-chip memory, as well as programmable timers, serial and parallel ports, and an on-board digital signal processor. The TMS34010 is popular in developing low-cost microcontroller applications.

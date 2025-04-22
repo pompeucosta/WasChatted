@@ -1,1 +1,0 @@
-An Automatic tool changer or ATC is a machine or a system used to change tools on a machine.  ATCs can be found in factories, mines and other industrial settings where multiple tools are used simultaneously. ATCs can also be found in machine shops, where they are used to change tools on lathes, mills, routers and other machines.

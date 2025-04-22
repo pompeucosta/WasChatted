@@ -1,1 +1,0 @@
-Crocodile Dentist is a game made for the Ludum Dare game jam. It is a 2D platformer where you play as a croc that needs to eat as many fruits as possible to grow big and strong.

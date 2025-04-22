@@ -1,1 +1,0 @@
-In graph theory, a rook's graph is a graph that is the Cartesian product of two graphs, where the first graph is a graph with two vertices and the second graph is a path between any two of the vertices in the first graph. Rook's graphs are named after the chess piece, the rook, which can move along the edges of both graphs.

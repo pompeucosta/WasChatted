@@ -1,1 +1,0 @@
-An ephemeral port is a communications endpoint that provides a temporary connection to the Internet. These ports are typically used by applications that need to communicate with services that are not always available or reliable, or by applications that need to temporarily bypass network latency.
