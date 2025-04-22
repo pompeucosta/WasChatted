@@ -1,14 +1,11 @@
-# TAI Group #4
-## Second project
-## Developed by:
-- Pompeu Costa, 103294
-- Rafael Pinto, 103379
-- Ricardo Antunes, 98275
+# WasChatted
+WasChatted is a program developed within the scope of a university project.
+It uses a Markhov model for data compression with the goal of determining of a text was rewritten by ChatGPT.
+The idea is to build a program that, for a certain target text given to it, *t*, it indicates one of two possibilities: (1) the text was not rewritten by ChatGPT; (2) the text was rewritten by ChatGPT.
 
 ## How to build the program
 ```bash
 g++ -o main was_chatted.cpp helpers.cpp -O3
-
 ```
 
 ## Parameters
@@ -32,8 +29,8 @@ The program has 2 commands and 1 parameter.
 
 
 It's important to note that:
-- k must be a positive integer
-- a must be a decimal value greater than 0
+- `k` must be a positive integer
+- `a` must be a positive number
 
 ### Analyse
   This command contains 2 parameters.
