@@ -3,6 +3,8 @@ WasChatted is a program developed within the scope of a university project.
 It uses a Markhov model for data compression with the goal of determining of a text was rewritten by ChatGPT.
 The idea is to build a program that, for a certain target text given to it, *t*, it indicates one of two possibilities: (1) the text was not rewritten by ChatGPT; (2) the text was rewritten by ChatGPT.
 
+For more information, read the [presentation file](./blob/main/presentation.pdf).
+
 ## How to build the program
 ```bash
 g++ -o main was_chatted.cpp helpers.cpp -O3
