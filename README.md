@@ -33,7 +33,7 @@ In this scenario the resulting table would be
 Once the process is completed, this table is stored on a binary file, alongside the context size used and the smoothing value.
 
 > [!NOTE]  
-> We later noted that this parameter didn’t need to be specified here and that it didn’t need to be saved on the binary file. It only needed to be specified in the analyse functionality, giving more flexibility to the user. However, we decided not to change because we were at the deadline and had already generated a lot of binaries.
+> We later noted that this parameter didn't need to be specified here and that it didn't need to be saved on the binary file. It only needed to be specified in the analyse functionality, giving more flexibility to the user. However, we decided not to change because we were at the deadline and had already generated a lot of binaries.
 
 ## Analysing
 This functionality uses the pre-trained models to determine if the provided text was written by a
